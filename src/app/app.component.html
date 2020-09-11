@@ -1,0 +1,13 @@
+<ion-app [class.dark-theme]="dark">
+  <ion-router-outlet></ion-router-outlet>
+  <ion-fab vertical="bottom" horizontal="end">
+    <ion-fab-button>
+      <ion-icon name="eye"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="top">
+      <ion-fab-button (click)="setStatusBar(true)"><ion-icon name="moon"></ion-icon></ion-fab-button>
+      <ion-fab-button (click)="setStatusBar(false)"><ion-icon name="sunny"></ion-icon></ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
+
+</ion-app>

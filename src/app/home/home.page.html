@@ -1,0 +1,126 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>
+      User Details
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+
+  <form [formGroup]="userForm" (ngSubmit)="createRecord()">
+
+    <ion-item>
+      <ion-label position="floating">Name</ion-label>
+      <ion-input formControlName="Name"></ion-input>
+    </ion-item>
+    <div *ngIf="uf.Name.touched && uf.Name.invalid" class="alert-danger">
+      <div *ngIf="uf.Name.errors.required">Name is required.</div>
+    </div>
+
+    <ion-item>
+      <ion-label position="floating">Number</ion-label>
+      <ion-input formControlName="Number"></ion-input>
+    </ion-item>
+    <div *ngIf="uf.Number.touched && uf.Number.invalid" class="alert-danger">
+      <div *ngIf="uf.Number.errors.required">Mobile Number is required.</div>
+      <div *ngIf="uf.Number.errors.pattern">Please, Enter 10 digit Mobile Number.</div>
+    </div>
+
+    <ion-item>
+      <ion-label position="floating">Email</ion-label>
+      <ion-input formControlName="Email"></ion-input>
+    </ion-item>
+    <div *ngIf="uf.Email.touched && uf.Email.invalid" class="alert-danger">
+      <div *ngIf="uf.Email.errors.required">Email is required.</div>
+      <div *ngIf="uf.Email.errors.pattern">Please, Enter Valid Email Address.</div>
+    </div>
+
+    <ion-item class="center" lines="none">
+      <ion-button (click)="createRecord()" [disabled]="userForm.invalid">
+        <ion-icon size="small" slot="icon-only" name="add"></ion-icon>
+        &nbsp;Create Record
+      </ion-button>
+    </ion-item>
+
+  </form>
+
+
+  <ion-card *ngFor="let item of userList" color="light">
+    <span *ngIf="!item.isEdit; else elseBlock">
+      <ion-card-header>
+        <ion-card-title>{{item.Name}}</ion-card-title>
+        <ion-card-subtitle>Number: {{item.Number}}</ion-card-subtitle>
+        <ion-card-subtitle>Email: {{item.Email}}</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+
+        <ion-button shape="round" color="primary" size="small" (click)="editRecord(item)">
+          <ion-icon size="small" slot="icon-only" name="create"></ion-icon>
+
+        </ion-button>
+        <ion-button shape="round" color="danger" size="small" (click)="removeRecord(item.id)">
+          <ion-icon size="small" slot="icon-only" name="trash"></ion-icon>
+
+        </ion-button>
+      </ion-card-content>
+    </span>
+    <ng-template #elseBlock>
+      <form [formGroup]="userEditForm" (ngSubmit)="updateRecord()">
+        <ion-card-header>
+          <ion-card-title>
+            <ion-grid>
+              <ion-row>
+                <ion-col>
+                  Edit
+                </ion-col>
+                <ion-col>
+                  <ion-button fill="solid" color="medium" size="small" (click)="item.isEdit = false">
+                    Cancel
+                  </ion-button>
+                </ion-col>
+                <ion-col>
+                  <ion-button fill="solid" color="success" size="small" [disabled]="userEditForm.invalid" (click)="updateRecord(item)">
+                    Update
+                  </ion-button>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+
+          <ion-item>
+            <ion-label><strong>Name</strong></ion-label>
+            <ion-input formControlName="Name"></ion-input>
+          </ion-item>
+          <div *ngIf="uef.Name.touched && uef.Name.invalid" class="alert-danger">
+            <div *ngIf="uef.Name.errors.required">Name is required.</div>
+          </div>
+          <ion-item>
+            <ion-label><strong>Number</strong></ion-label>
+            <ion-input formControlName="Number"></ion-input>
+          </ion-item>
+          <div *ngIf="uef.Number.touched && uef.Number.invalid" class="alert-danger">
+            <div *ngIf="uef.Number.errors.required">Mobile Number is required.</div>
+            <div *ngIf="uef.Number.errors.pattern">Please, Enter 10 digit Mobile Number.</div>
+          </div>
+          <ion-item>
+            <ion-label><strong>Email</strong></ion-label>
+            <ion-input formControlName="Email"></ion-input>
+          </ion-item>
+          <div *ngIf="uef.Email.touched && uef.Email.invalid" class="alert-danger">
+            <div *ngIf="uef.Email.errors.required">Email is required.</div>
+            <div *ngIf="uef.Email.errors.pattern">Please, Enter Valid Email Address.</div>
+          </div>
+        </ion-card-content>
+      </form>
+    </ng-template>
+  </ion-card>
+
+  <ion-item lines="none">
+    <ion-button slot="start" (click)="prevRecord()" [disabled]="prevFlag">Previous</ion-button>
+    <ion-button slot="end" (click)="nextRecord()" [disabled]="nextFlag">Next</ion-button>
+  </ion-item>
+  <ion-item lines="none" style="margin: 10px; padding: 10px;"></ion-item>
+</ion-content>
